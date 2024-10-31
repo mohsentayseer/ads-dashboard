@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAds } from './features/adsSlice';
+import AdsList from './components/AdsList';
 
 function App() {
+  const dispatch = useDispatch();
+  const adsStatus = useSelector((state) => state.ads.status);
+
+  useEffect(() => {
+    if (adsStatus === 'idle') {
+      dispatch(fetchAds());
+    }
+  }, [adsStatus, dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Admin Ads Dashboard</h1>
+      <AdsList />
     </div>
   );
 }
